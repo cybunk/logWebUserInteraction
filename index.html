@@ -1,0 +1,118 @@
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <title>Track JS event UI with Google Analytics test</title>
+  	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+	<!--
+	
+		To evaluate the pertience of User Interface in a web context, 
+		it's really important to record all trail of User action with 
+		signifiant élément of interface .
+		
+		This page is a demo of a quick and simple collectors
+		to collect data with Google Analytics or other collector.
+		
+		We use the Event Tracking Model, more infos on : 
+		http://code.google.com/intl/fr-FR/apis/analytics/docs/tracking/eventTrackerGuide.html
+		
+		We propose to map the value as following  :		
+		
+	--> 
+	<script type="text/javascript">
+
+	  var _gaq = _gaq || [];
+	  _gaq.push(['_setAccount', 'UA-1032749-2']);
+	  _gaq.push(['_trackPageview']);
+
+	  (function() {
+	    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+	    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+	    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	  })();
+
+	</script>
+  </head>
+
+  <body id="container">
+	
+	<script type="text/javascript">
+	function pageWidth() {return window.innerWidth != null? window.innerWidth : document.documentElement && document.documentElement.clientWidth ?       document.documentElement.clientWidth : document.body != null ? document.body.clientWidth : null;} 
+	function pageHeight() {return  window.innerHeight != null? window.innerHeight : document.documentElement && document.documentElement.clientHeight ?  document.documentElement.clientHeight : document.body != null? document.body.clientHeight : null;} 
+	function posLeft() {return typeof window.pageXOffset != 'undefined' ? window.pageXOffset :document.documentElement && document.documentElement.scrollLeft ? document.documentElement.scrollLeft : document.body.scrollLeft ? document.body.scrollLeft : 0;}
+	 function posTop() {return typeof window.pageYOffset != 'undefined' ?  window.pageYOffset : document.documentElement && document.documentElement.scrollTop ? document.documentElement.scrollTop : document.body.scrollTop ? document.body.scrollTop : 0;} 
+	function posRight() {return posLeft()+pageWidth();} function posBottom() {return posTop()+pageHeight();}
+	
+	</script>
+	<script type="text/javascript">
+	
+		var MyTempLog,MyOldLog;
+		var logMode 			= "sync";//"async";"end";""
+		var logMouse 			= true;
+		var mouseLog 			= new Array();
+		var msg 				= "Mouse :";
+		var mouseX,mouseY,mouseXOld,mouseYOld,timeOld,time,date;
+		//
+		var isActive = true;
+		window.onfocus = function () {
+		  isActive = true;
+		    document.title = window.isActive;
+			_gaq.push(['_trackEvent', 'window', 'onfocus', 'true']);
+		};
+		window.onblur = function () {
+		  isActive = false;
+		    document.title = window.isActive;
+			_gaq.push(['_trackEvent', 'window', 'onfocus', 'false']);
+		};
+		window.onmousemove =function(){
+			mouseX = event.clientX+document.body.scrollLeft;
+			mouseY = event.clientY+document.body.scrollTop;
+			date   = new Date();
+			time   = date.getTime();
+			if (mouseLog.length==0){
+				MyTempLog.push({t:time,m:[mouseX,mouseY]});
+				//console.log(time);
+			}else{
+				now = time-timeOld;
+				MyTempLog.push({t:now,m:[mouseX-mouseXOld,mouseY-mouseYOld]});
+				console.log(now);
+			}
+			mouseXOld = mouseX
+			mouseYOld = mouseY
+			timeOld = time
+		}
+		window.onclick = function (){
+			MyTempLog.push({t:now,e:"onclick",});
+			var dumpMouseLog = mouseLog.toString();
+			console.log(dumpMouseLog);
+			//_gaq.push(['_trackEvent', 'window', 'onmousemove', 'mouse:mouseOldPosition[0],mouseOldPosition[1]']);
+			MyOldLog =MyTempLog.concat(children);
+			MyTempLog = new Array();
+		}
+		window.onscroll = function (e) {
+			msg = "scroll : "+window.pageXOffset+" "+window.pageYOffset;
+			$("#log").append("<div>" + msg + "</div>");
+		}
+		window.onselect = function (e) {
+		}
+		window.onresize = function (e) {
+		}
+
+		sendTrail function (json){
+			$.post("test.php", json );
+			
+		}
+		sendError function(){
+			
+		}
+	</script>
+		
+		<a name="PlayButton" href="#" name="play"
+		onClick="_gaq.push(['_trackEvent', 'ControlBar', 'onClick', '']);"
+		hover="_gaq.push(['_trackEvent', 'ControlBar', 'hover', '']);"
+		>Play</a>
+		
+		<a href="#2" name="pause"> </a>
+		<a href="#3" name="seek"> </a>
+		<div id="log">log </div>
+  </body>
+</html>

@@ -1,0 +1,43 @@
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <title>Track JS event UI with Google Analytics test</title>
+<!--  	<script type="text/javascript" src="static/binReady.js"></script>-->
+  	<script type="text/javascript" src="static/jquery.min.js"></script>
+  	<script type="text/javascript" src="static/logUserInteraction.js"></script>
+  	<script type="text/javascript" src="static/JSON/json2.js"></script>
+
+	<!--
+	
+		To evaluate the pertience of User Interface in a web context, 
+		it's really important to record all trail of User action with 
+		signifiant élément of interface .
+		
+		This page is a demo of a quick and simple collectors
+		to collect data with Google Analytics or other collector.
+		
+		We use the Event Tracking Model, more infos on : 
+		http://code.google.com/intl/fr-FR/apis/analytics/docs/tracking/eventTrackerGuide.html
+		
+		We propose to map the value as following  :		
+		
+	--> 
+
+  </head>
+
+  <body id="container">
+	
+	<script type="text/javascript">
+
+	</script>
+		
+		<a name="PlayButton" href="#" name="play"
+		onClick="_gaq.push(['_trackEvent', 'ControlBar', 'onClick', '']);"
+		hover="_gaq.push(['_trackEvent', 'ControlBar', 'hover', '']);"
+		>Play</a>
+		
+		<a href="#2" name="pause"> </a>
+		<a href="#3" name="seek"> </a>
+		<div id="log">log </div>
+  </body>
+</html>
